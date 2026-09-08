@@ -1,6 +1,8 @@
 # Pi4 only. On the Mac dev machine, everything is already in the "cv" conda env:
 # fastapi, uvicorn, websockets, ultralytics, opencv-python, torch, numpy,
 # requests, python-dotenv. On the Pi4, install that same stack plus:
-RPi.GPIO
+gpiozero
+lgpio       # gpiozero's GPIO backend on modern Raspberry Pi OS (Bookworm/Trixie);
+            # also needs `sudo apt install liblgpio-dev` (and `swig` to build it) first
 requests
 python-dotenv
