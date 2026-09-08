@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>trobot ground control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="segbar top">
+  <div class="seg">TROBOT CORE :: <b id="segCoreTop">0.0%</b> // <span id="segModeTop">MANUAL</span></div>
+  <div class="seg">LINK :: <b id="segLinkTop">0.0%</b> // <span id="segLinkTxtTop">LOST</span></div>
+  <div class="seg">CAM FEED :: <b id="segFpsTop">--</b> FPS // <span id="segCamTop">ON</span></div>
+  <div class="seg">GROUND NET :: <span id="segHostTop">local</span> <span class="bars">[|||||]</span></div>
+</div>
+<div class="segbar bottom">
+  <div class="seg">TROBOT CORE :: <b id="segCoreBot">0.0%</b> // <span id="segModeBot">MANUAL</span></div>
+  <div class="seg">LINK :: <b id="segLinkBot">0.0%</b> // <span id="segLinkTxtBot">LOST</span></div>
+  <div class="seg">CAM FEED :: <b id="segFpsBot">--</b> FPS // <span id="segCamBot">ON</span></div>
+  <div class="seg">GROUND NET :: <span id="segHostBot">local</span> <span class="bars">[|||||]</span></div>
+</div>
+
+<div id="topLeft">
+  <div id="brand"><span class="glyph"></span>TROBOT</div>
+  <span class="tag">BUILD :: dev-mac</span>
+  <span class="tag on">STATUS :: <span id="statusTag">ONLINE</span></span>
+</div>
+
+<div id="topRight">
+  <span class="tag">GROUND CTRL // AUTH 01</span>
+  <span id="clockTag">--:--:--</span>
+</div>
+
+<div id="rightStrip"></div>
+
+<div id="panel">
+  <img id="stream" src="/stream" alt="trobot stream" />
+</div>
+<div class="tick tl"></div><div class="tick tr"></div>
+<div class="tick bl"></div><div class="tick br"></div>
+<div id="panelLabel"><span class="tag">TROBOT CAM [live feed]</span></div>
+
+<div id="crosshair">
+  <svg width="56" height="56" viewBox="0 0 56 56">
+    <circle cx="28" cy="28" r="16" fill="none" stroke="#fff" stroke-width="1"/>
+    <line x1="28" y1="0" x2="28" y2="12" stroke="#fff" stroke-width="1"/>
+    <line x1="28" y1="44" x2="28" y2="56" stroke="#fff" stroke-width="1"/>
+    <line x1="0" y1="28" x2="12" y2="28" stroke="#fff" stroke-width="1"/>
+    <line x1="44" y1="28" x2="56" y2="28" stroke="#fff" stroke-width="1"/>
+  </svg>
+</div>
+
+<div id="telemetry">
+  <div class="chip">MODE <span class="val" id="tMode">MANUAL</span></div>
+  <div class="chip">LOCK <span class="val" id="tLock">--</span></div>
+  <div class="chip">VX <span class="bar"><span class="mid"></span><span class="fill" id="barVx"></span></span></div>
+  <div class="chip">VZ <span class="bar"><span class="mid"></span><span class="fill" id="barVz"></span></span></div>
+  <div class="chip">GAMEPAD <span class="val" id="tGamepad">NONE</span></div>
+</div>
+
+<div id="mapBox">
+  <img id="mapImg" alt="approx location map" />
+  <div id="mapLabel">LOCATING...</div>
+  <div id="mapNote">&#9888; IP-based approx (ground control), not robot GPS</div>
+</div>
+
+<div id="controls">
+  <div id="stick"><div id="knob"></div></div>
+  <button class="hud" id="toggleCamera">&#128247; CAMERA: ON</button>
+  <button class="hud" id="toggleDetection">&#127919; DETECTION: ON</button>
+  <button class="hud danger" id="stopAuto">&#9760; DISENGAGE LOCK</button>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Pi4 only. On the Mac dev machine, everything is already in the "cv" conda env:
+# fastapi, uvicorn, websockets, ultralytics, opencv-python, torch, numpy,
+# requests, python-dotenv. On the Pi4, install that same stack plus:
+RPi.GPIO
+requests
+python-dotenv
