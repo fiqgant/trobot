@@ -178,11 +178,15 @@ window.addEventListener("pointerup", () => {
 });
 
 // ---- physical joystick via browser Gamepad API ----
-// axis indices below are a guess (typical HID layout) -- open the browser
-// console, check `navigator.getGamepads()[0].axes`, and adjust AXIS_X /
-// AXIS_Y to match flyjoy's actual reported order.
+// axis indices below are a guess (typical HID layout: X, Y, Rudder, Throttle
+// per the flyjoy sketch's Joystick_ constructor order) -- open the browser
+// console, check `navigator.getGamepads()[0].axes`, and adjust to match
+// flyjoy's actual reported order.
+// Roll/pitch tilt (X/Y) steers; the slide-pot Throttle axis sets how fast --
+// direction and speed are independent, like a real throttle+steering rig.
 const AXIS_X = 0;
 const AXIS_Y = 1;
+const AXIS_THROTTLE = 3;
 const DEADZONE = 0.08;
 let lastGpSent = 0;
 
@@ -196,9 +200,14 @@ function pollGamepad() {
     let y = gp.axes[AXIS_Y] || 0;
     if (Math.abs(x) < DEADZONE) x = 0;
     if (Math.abs(y) < DEADZONE) y = 0;
+
+    // Throttle axis is -1..1 across the slider's full travel -> normalize to 0..1 speed.
+    const throttleRaw = gp.axes[AXIS_THROTTLE];
+    const speed = throttleRaw === undefined ? 1 : (throttleRaw + 1) / 2;
+
     const now = performance.now();
     if ((x !== 0 || y !== 0) && now - lastGpSent > 50) {
-      sendCmd(-y, x);
+      sendCmd(-y * speed, x * speed);
       setMode("manual");
       lastGpSent = now;
     }
