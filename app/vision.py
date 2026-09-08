@@ -8,11 +8,17 @@ import time
 
 import cv2
 import numpy as np
-from ultralytics import YOLO
 
 from . import config
 
 log = logging.getLogger("trobot.vision")
+
+try:
+    from ultralytics import YOLO
+    _HAS_YOLO = True
+except ImportError:
+    _HAS_YOLO = False
+    log.warning("ultralytics not available -> object detection disabled, streaming raw camera only")
 
 
 def _center_and_area(xyxy):
@@ -31,7 +37,7 @@ def _camera_off_frame():
 
 
 def run(state, stop_event: threading.Event):
-    model = YOLO(config.YOLO_MODEL)
+    model = YOLO(config.YOLO_MODEL) if _HAS_YOLO else None
     cap = None
 
     while not stop_event.is_set():
@@ -62,7 +68,7 @@ def run(state, stop_event: threading.Event):
         h, w = frame.shape[:2]
         click = state.pop_pending_click()  # discard silently if detection is off below
 
-        if state.detection_on:
+        if state.detection_on and model is not None:
             result = model.track(frame, persist=True, verbose=False, conf=config.YOLO_CONF)[0]
             boxes = result.boxes
             locked_id = state.locked_track_id
